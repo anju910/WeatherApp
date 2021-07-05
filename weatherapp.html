@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/d56d18e9db.js" crossorigin="anonymous"></script>
+    
+</head>
+<style>
+    .container-fluid{
+        background-color:  blue;
+        width: 100%;
+        height: 300px;
+        background-size: cover;
+        background-repeat: no-repeat;
+
+    }
+    .row1{
+    margin-top: 20px;
+    margin-left: 0%;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    }
+    .col-3{
+        height: 250px;
+    width: 25%;
+    padding: 10px;
+    /* border: 1px solid black; */
+    align-items: center;
+    
+    
+    }
+</style>
+<body>
+    <div class="container-fluid" >
+
+        <!-- <img src="./weatherr.jpg" alt=""> -->
+        <div class="row" style="text-align: center;">
+            <h1 >Weather App</h1>
+            
+            <div class="col-4"></div>
+            <div class="col-4 mt-5">
+                <input type="text" name="" id="country" placeholder="enter city name">
+                <button class="btn btn-success" onclick="fetchCity()">FetchData</button>
+
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4" id="result">
+
+            </div>
+            <div class="col-4"></div>
+
+        </div>
+    </div>
+    <div class="row1">
+        <div class="col-3" >
+            <i class="far fa-4x fa-building"></i>
+            <h3>City Name</h3>
+            <b><h2><p style="text-align: center;color: darkred;" id="one"></p></h2></b> 
+        </div>
+        <div class="col-3" >
+            <i class="fas fa-4x fa-thermometer"></i>
+            <h3>Temperature</h3>
+           <b><h2><p style="text-align: center;color: darkred;" id="two"></p></h2></b> 
+        </div>
+        <div class="col-3"  >
+            <i class="fas fa-4x fa-cloud-rain"></i>
+           <h3> Weather</h3>
+           <b><h2><p style="text-align: center;color: darkred;" id="three"></p></h2></b> 
+        </div>
+        <div class="col-3" >
+            <i style="color:black;"class="fas  fa-4x fa-tint"></i>
+            <h3 >Humidity</h3>
+            <b><h2><p style="text-align: center;color: darkred;" id="four"></p></h2></b> 
+        </div>
+    </div>
+
+</body>
+<script>
+    function display(city){
+        let city_name=city.list[0].name
+        let temperature=city.list[0].main.temp
+        let weather=city.list[0].weather[0].main
+        let humidity=city.list[0].main.humidity
+        console.log(name,temperature,weather,humidity)
+
+
+        document.querySelector("#one").innerHTML=city_name
+        document.querySelector("#two").innerHTML=temperature
+        document.querySelector("#three").innerHTML=weather
+        document.querySelector("#four").innerHTML=humidity
+        
+
+    //     let html_data=`<div class="card" style="width: 24rem;">
+    // <div class="card-header">
+    //   ${city_name}
+    // </div>
+    // <ul class="list-group list-group-flush">
+    //   <li class="list-group-item">${temperature}</li>
+    //   <li class="list-group-item">${weather}</li>
+      
+    // </ul>
+    // </div>`
+    // result.innerHTML=html_data
+     }
+
+    
+
+
+    function fetchCity(){
+        let city_name=country.value
+        let api_key=`bfe2c21ed48c093dd448ca83cca48c13`
+        let url=`https://api.openweathermap.org/data/2.5/find?q=${city_name}&appid=${api_key}`
+        fetch(url).then(res=>{
+            if(!(res.ok)){   //in case of failed url/error found
+                throw new Error("failed fetch data")
+
+            }
+            else{
+                return res.json()
+            }
+        }).then(data=>display(data)).catch(error=>alert(error.message))
+    }
+
+
+</script>
+</html>
